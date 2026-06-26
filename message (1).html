@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comment Corner · コメントコーナー — Hero's Proof</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka:wght@400;500;600;700&family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#3a2558;--bg2:#2a1845;
+  --cream:#f5eedc;--card-bg:rgba(245,238,220,0.97);--border-gold:rgba(245,158,11,0.25);
+  --purple:#9060c0;--purple-light:#c8a0e0;--purple-dark:#4a3870;
+  --gold:#c9a030;--gold-light:#f0d060;--gold-pale:#f8f0c0;
+  --pink:#e87090;--pink-light:#f5a8c0;
+  --brown:#5c2810;--text-dark:#1e1235;--text-soft:#3a2558;--text-muted:rgba(200,160,224,.78);
+  --shadow:rgba(0,0,0,0.4);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{font-family:'Fredoka','Kosugi Maru','Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;}
+button{font-family:inherit;cursor:pointer;}
+a{color:inherit;}
+:focus-visible{outline:3px solid var(--gold-light);outline-offset:2px;border-radius:6px;}
+
+.starfield{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.starfield span{position:absolute;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s);display:flex;align-items:center;justify-content:center;font-size:var(--sz,1rem);color:var(--col,#fde68a);text-shadow:0 0 6px var(--col,#fde68a);line-height:1;}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.3) rotate(0deg)}50%{opacity:.9;transform:scale(1) rotate(20deg)}}
+
+.page{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:0 16px 80px;}
+
+.story-header{text-align:center;padding:18px 0 26px;position:relative;text-decoration:none;display:block;cursor:pointer;transition:opacity .2s;}
+.story-header:hover{opacity:.85;}
+.story-header::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:220px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.story-eyebrow{font-family:'Press Start 2P',monospace;font-size:clamp(.42rem,1.9vw,.58rem);color:var(--gold-light);letter-spacing:.18em;opacity:.75;margin-bottom:14px;text-shadow:0 0 20px rgba(240,208,96,.4);}
+.story-title{font-family:'Press Start 2P',monospace;font-size:clamp(1.05rem,4.2vw,1.65rem);color:#fff;line-height:1.5;text-shadow:0 0 36px rgba(200,160,224,.55),0 0 70px rgba(144,96,192,.3);}
+.story-title .jp{display:block;font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;font-size:clamp(1.05rem,3.1vw,1.5rem);color:var(--gold-light);letter-spacing:.2em;margin-top:10px;text-shadow:0 0 20px rgba(240,208,96,.4);}
+
+/* ── Decorative wax-seal badge ── */
+.seal-wrap{display:flex;justify-content:center;margin:4px 0 -14px;position:relative;z-index:2;}
+.seal{
+  width:74px;height:74px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,var(--pink-light),var(--pink) 60%,#b8395a 100%);
+  display:flex;align-items:center;justify-content:center;font-size:1.9rem;
+  box-shadow:0 6px 16px rgba(0,0,0,.4),inset 0 2px 4px rgba(255,255,255,.4),0 0 0 4px rgba(245,238,220,.9),0 0 0 5px rgba(138,103,18,.4);
+  animation:sealFloat 4.5s ease-in-out infinite;
+}
+@keyframes sealFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-5px) rotate(3deg)}}
+
+/* ── Letter from Sensei ── */
+.letter{position:relative;background:var(--card-bg);border:1px solid var(--border-gold);border-radius:6px 22px 22px 22px;padding:34px 26px 24px;margin:8px 0 30px;box-shadow:0 8px 30px var(--shadow),inset 0 1px 0 rgba(255,255,255,.8);color:var(--text-dark);overflow:hidden;}
+.letter::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(255,255,255,.5),transparent 60%);}
+.letter::after{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--pink),var(--gold-light),var(--purple),var(--pink));}
+.letter p{position:relative;z-index:1;font-size:1rem;line-height:1.85;margin-bottom:12px;}
+.letter p:last-child{margin-bottom:0;}
+.letter .jp{display:block;font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;font-size:.92rem;color:var(--text-soft);margin-top:3px;}
+.letter .sign{text-align:right;font-weight:700;color:var(--purple);margin-top:16px;font-size:1.1rem;font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;}
+
+/* ── Send a message CTA ── */
+.send-wrap{text-align:center;margin:0 0 44px;}
+.send-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--pink),#c84868);
+  border:none;border-radius:40px;color:#fff7f2;
+  font-family:'Press Start 2P',monospace;font-size:clamp(.62rem,2.4vw,.8rem);
+  letter-spacing:.06em;padding:18px 32px;
+  box-shadow:0 6px 22px rgba(232,112,144,.45);
+  transition:transform .2s,box-shadow .2s;text-decoration:none;
+}
+.send-btn .fly{display:inline-block;transition:transform .3s ease;}
+.send-btn:hover .fly{transform:translateX(5px) translateY(-3px) rotate(8deg);}
+.send-btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(232,112,144,.55);}
+.send-btn:active{transform:translateY(1px);}
+.send-sub{margin-top:12px;font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;font-size:.88rem;color:var(--text-muted);}
+
+/* ── Wall ── */
+.shelf-heading{font-family:'Press Start 2P',monospace;font-size:clamp(.56rem,2.1vw,.74rem);color:var(--gold-light);text-align:center;letter-spacing:.12em;margin:10px 0 18px;text-shadow:0 0 16px rgba(240,208,96,.4),2px 2px 0 var(--brown);}
+.shelf-heading .jp{display:block;font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;font-size:1rem;color:var(--purple-light);margin-top:5px;font-weight:700;text-shadow:none;}
+
+@keyframes noteIn{from{opacity:0;transform:translateY(10px) rotate(var(--tilt,0deg))}to{opacity:1;transform:translateY(0) rotate(var(--tilt,0deg))}}
+.wall{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;}
+.note-msg{
+  position:relative;border:1px solid rgba(138,103,18,.35);border-radius:4px 14px 14px 14px;
+  padding:20px 18px 16px;box-shadow:0 6px 18px rgba(0,0,0,.35);
+  transform:rotate(var(--tilt,0deg));transition:transform .25s ease,box-shadow .25s ease;
+  animation:noteIn .4s ease backwards;
+}
+.note-msg:hover{transform:rotate(0deg) translateY(-4px) scale(1.02);box-shadow:0 12px 26px rgba(0,0,0,.4);z-index:2;}
+.note-msg.c0{background:linear-gradient(160deg,#fff8e6,#f3e6c4);color:#352714;}
+.note-msg.c1{background:linear-gradient(160deg,#f3e6f5,#e6d0ea);color:#3a2348;}
+.note-msg.c2{background:linear-gradient(160deg,#e6f3ee,#cfe8db);color:#1c3a2c;}
+.note-msg::before{content:var(--pin,'📌');position:absolute;top:-13px;left:14px;font-size:1.15rem;filter:drop-shadow(0 2px 3px rgba(0,0,0,.4));}
+.note-msg .msg-text{font-size:.96rem;line-height:1.65;white-space:pre-wrap;}
+.note-msg .msg-from{margin-top:10px;font-weight:700;font-size:.86rem;text-align:right;opacity:.75;}
+.wall-empty,.wall-error{text-align:center;color:var(--text-muted);font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;font-size:.94rem;line-height:1.8;padding:30px 10px;}
+.wall-loading{text-align:center;color:var(--text-muted);font-size:.94rem;padding:20px;}
+
+footer{margin-top:62px;text-align:center;padding:26px 0;border-top:1px solid rgba(201,160,48,.12);}
+.footer-text{font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;font-size:.86rem;color:rgba(217,201,168,.45);letter-spacing:.08em;line-height:2;}
+.footer-text span{color:rgba(201,160,48,.45);}
+
+.hub-row{text-align:center;margin-top:50px;}
+.btn-hub{
+  font-family:'Fredoka',sans-serif;font-size:.9rem;font-weight:600;
+  color:rgba(200,160,224,.75);background:transparent;
+  border:1px solid rgba(167,139,250,.25);border-radius:50px;padding:9px 24px;
+  cursor:pointer;text-decoration:none;display:inline-block;
+  transition:color .2s,border-color .2s;
+}
+.btn-hub:hover{color:var(--gold-light);border-color:rgba(245,158,11,.4);}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01s!important;}
+  html{scroll-behavior:auto;}
+}
+</style>
+</head>
+<body>
+
+<div class="starfield" id="starfield"></div>
+
+<div class="page">
+
+  <a class="story-header" href="https://herosproof.github.io">
+    <p class="story-eyebrow">✦ Hero's Proof · 勇者の証 ✦</p>
+    <h1 class="story-title">Comment Corner<span class="jp">コメントコーナー</span></h1>
+  </a>
+
+  <!-- ════════════ EDIT ME: your farewell note ════════════ -->
+  <div class="seal-wrap"><div class="seal">💌</div></div>
+  <div class="letter">
+    <p>Hi everyone! 💜<br>
+      <span class="jp">みんな、こんにちは！💜</span></p>
+    <p>I made Hero's Proof for you as a goodbye present. I'm leaving Japan soon, but I really want to hear from you — even after I'm gone!<br>
+      <span class="jp">「勇者の証」は、みんなへのさよならプレゼントです。もうすぐ日本を離れますが、これからもみんなの声が聞きたいです！</span></p>
+    <p>Leave me a message below — tell me about your day, ask Lumi a question, or just say hi. I'll read every single one. 📖<br>
+      <span class="jp">下のボタンから、メッセージを送ってね。今日あったこと、ルミへの質問、ただの「やっほー」でもいいよ。ぜんぶ読みます！📖</span></p>
+    <p class="sign">— Sensei 💌</p>
+  </div>
+
+  <div class="send-wrap">
+    <!-- ════════════ EDIT ME: paste your Google Form link below ════════════ -->
+    <a class="send-btn" id="send-btn" href="PASTE_YOUR_GOOGLE_FORM_LINK_HERE" target="_blank" rel="noopener">
+      <span class="fly">💌</span> SEND A MESSAGE · おくる
+    </a>
+    <p class="send-sub">Your message goes straight to Sensei. You can choose if it's okay to also show it on this wall!<br>
+      <span style="opacity:.85">メッセージはせんせいに届くよ。「みんなに見せてもいいか」も選べるよ！</span></p>
+  </div>
+
+  <h2 class="shelf-heading">✦ Message Wall<span class="jp">メッセージのかべ</span></h2>
+  <div class="wall" id="wall">
+    <p class="wall-loading">Loading messages… <br>よみこみちゅう…</p>
+  </div>
+
+  <div class="hub-row">
+    <a href="https://herosproof.github.io" class="btn-hub">🏠 Home / ホーム</a>
+  </div>
+
+  <footer>
+    <p class="footer-text">Hero's Proof <span>勇者の証</span><br>Made with 💜 for elementary English learners · 小学生の英語学習のために</p>
+  </footer>
+
+</div>
+
+<script>
+/* ── Starfield ── */
+(function(){
+  const sf=document.getElementById('starfield');
+  const glyphs=['✦','✧','⋆','✴','★','✸','·','✦','✧'];
+  const colors=['#f0d060','#c9a030','#d9c9a8','#f0d060','#c8a0e0','#f8f0c0'];
+  for(let i=0;i<60;i++){
+    const s=document.createElement('span');
+    const sz=(Math.random()*1.2+0.5).toFixed(2);
+    s.textContent=glyphs[Math.floor(Math.random()*glyphs.length)];
+    s.style.cssText=`top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*5}s;--delay:-${Math.random()*7}s;--sz:${sz}rem;--col:${colors[Math.floor(Math.random()*colors.length)]};`;
+    sf.appendChild(s);
+  }
+})();
+
+/* ════════════ MESSAGE WALL ════════════
+   How to set this up (no coding!):
+   1. Make a Google Form with 3 questions: "Your name or nickname", "Your message",
+      and "Is it okay to show this on the website? (Yes/No)".
+   2. In Form > Responses, click the green Sheets icon to create a linked spreadsheet.
+      This is your PRIVATE inbox — you read every message here, regardless of their answer.
+   3. In that spreadsheet, add a NEW tab (bottom "+") named "Wall". For any response
+      you're happy to make public, just type/copy its name + message into this tab
+      as two columns: Name | Message. (No formulas needed — literally just typing.)
+   4. With the "Wall" tab open: File → Share → Publish to web → choose the "Wall"
+      sheet specifically → format "Comma-separated values (.csv)" → Publish.
+   5. Copy that link and paste it below as WALL_CSV_URL.
+   6. Paste your Google Form's link into the "send-btn" href above.
+   Until both links are filled in, this page will just show a friendly placeholder.
+*/
+const WALL_CSV_URL = 'PASTE_YOUR_PUBLISHED_WALL_CSV_LINK_HERE';
+
+function parseCSV(text){
+  // tiny CSV parser that handles quoted commas
+  const rows=[];let row=[],cur='',inQ=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i],n=text[i+1];
+    if(inQ){
+      if(c==='"'&&n==='"'){cur+='"';i++;}
+      else if(c==='"'){inQ=false;}
+      else cur+=c;
+    }else{
+      if(c==='"')inQ=true;
+      else if(c===','){row.push(cur);cur='';}
+      else if(c==='\r'){/* skip */}
+      else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur='';}
+      else cur+=c;
+    }
+  }
+  if(cur.length||row.length){row.push(cur);rows.push(row);}
+  return rows.filter(r=>r.some(c=>c.trim().length));
+}
+
+(function loadWall(){
+  const wall=document.getElementById('wall');
+  if(!WALL_CSV_URL || WALL_CSV_URL.indexOf('PASTE_YOUR') === 0){
+    wall.innerHTML='<p class="wall-empty">No messages yet — be the first to write one! 💌<br>まだメッセージがないよ。さいしょのひとりになろう！</p>';
+    return;
+  }
+  fetch(WALL_CSV_URL).then(r=>{
+    if(!r.ok)throw new Error('bad response');
+    return r.text();
+  }).then(text=>{
+    const rows=parseCSV(text);
+    if(rows.length<2){wall.innerHTML='<p class="wall-empty">No messages yet — be the first to write one! 💌<br>まだメッセージがないよ。さいしょのひとりになろう！</p>';return;}
+    const data=rows.slice(1); // skip header row (Name, Message)
+    wall.innerHTML='';
+    const pins=['📌','💜','⭐','🌟','✨'];
+    data.forEach(([name,msg],i)=>{
+      if(!msg)return;
+      const card=document.createElement('div');
+      card.className='note-msg c'+(i%3);
+      card.style.setProperty('--tilt',((i%5)-2)*0.6+'deg');
+      card.style.setProperty('--pin',`'${pins[i%pins.length]}'`);
+      card.style.animationDelay=(i*0.05)+'s';
+      const textEl=document.createElement('p');textEl.className='msg-text';textEl.textContent=msg;
+      const fromEl=document.createElement('p');fromEl.className='msg-from';fromEl.textContent='— '+(name||'A Hero · ヒーロー');
+      card.appendChild(textEl);card.appendChild(fromEl);
+      wall.appendChild(card);
+    });
+    if(!wall.children.length)wall.innerHTML='<p class="wall-empty">No messages yet — be the first to write one! 💌<br>まだメッセージがないよ。さいしょのひとりになろう！</p>';
+  }).catch(()=>{
+    wall.innerHTML='<p class="wall-error">Couldn\u2019t load messages right now — try refreshing!<br>メッセージをよみこめませんでした。もう一度試してね。</p>';
+  });
+})();
+</script>
+</body>
+</html>
